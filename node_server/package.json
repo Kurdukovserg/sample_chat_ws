@@ -1,0 +1,21 @@
+{
+  "name": "socket-test-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "random": "^5.1.1",
+    "socket.io": "^3.0.3",
+    "socket.io-client": "^3.0.3"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "author": "Serhii Kurdiukov",
+  "license": "ISC"
+}
