@@ -1,5 +1,6 @@
 import 'package:chat_sample_app/dtos/access_token.dart';
 import 'package:chat_sample_app/models/login_request.dart';
+import 'package:chat_sample_app/services/web_socket_service.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,7 +14,7 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Unit>> saveAccessToken(AccessToken accessToken);
 
-  String? get uid;
+  AccessToken? get accessToken;
 }
 
 @Singleton(as: AuthRepository)
@@ -22,11 +23,13 @@ class AuthRepositoryImpl implements AuthRepository {
     this._local,
     this._remote,
     this._httpClientsService,
+    this._webSocketService,
   );
 
   final AuthLocalDataSource _local;
   final AuthRemoteDataSource _remote;
   final HttpClientsService _httpClientsService;
+  final WebSocketService _webSocketService;
   AccessToken? _accessToken;
 
   @override
@@ -40,15 +43,16 @@ class AuthRepositoryImpl implements AuthRepository {
     final savedOrFailure = await _local.saveAccessToken(accessToken);
     savedOrFailure.map((_) async {
       _httpClientsService.reset();
+      _webSocketService.dispose();
     });
     return savedOrFailure;
   }
 
   @override
-  String? get uid {
+  AccessToken? get accessToken {
     if (_accessToken != null) {
-      return _accessToken!.uid;
+      return _accessToken!;
     }
-    return null;
+    return _local.readAccessToken().fold((_) => null, (token) => token);
   }
 }

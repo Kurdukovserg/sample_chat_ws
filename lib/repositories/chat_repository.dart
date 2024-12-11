@@ -43,15 +43,16 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
-  void _onMessagesListen() {
-    final socket = _webSocketService.socket;
-    socket.connect();
-    logInfo('socked connection status: ${socket.connected}');
-    socket.on('connect', (data) {
-      logInfo('connected, data: $data');
-      socket.on('message', (message) {
-        logInfo('message received: $message');
-        convertAndSink(message);
+  void _onMessagesListen() async {
+    final socketOrFail = await _webSocketService.init();
+    socketOrFail.fold((fail) => logError(fail), (socket) {
+      logInfo('socket connection status: ${socket.connected}');
+      socket.on('connect', (_) {
+        logInfo('connected, data: ${socket.id}');
+        socket.on('message', (message) {
+          logInfo('message received: $message');
+          convertAndSink(message);
+        });
       });
     });
   }
@@ -62,9 +63,13 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Either<Failure, IO.Socket>> connect() async {
+    logInfo('connect');
     try {
-      _webSocketService.init();
-      return right(_webSocketService.socket);
+      final socketOrNull = _webSocketService.socket;
+      if (socketOrNull != null && socketOrNull.connected) {
+        return right(_webSocketService.socket!);
+      }
+      return _webSocketService.init();
     } catch (e) {
       return left(Failure());
     }

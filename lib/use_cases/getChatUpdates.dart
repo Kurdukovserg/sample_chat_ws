@@ -14,14 +14,15 @@ abstract class GetChatUpdatesUseCase
 
 @Injectable(as: GetChatUpdatesUseCase)
 class GetChatUpdatesUseCaseImpl implements GetChatUpdatesUseCase {
-  GetChatUpdatesUseCaseImpl(this._repository);
+  GetChatUpdatesUseCaseImpl(
+    this._repository,
+  );
 
   final ChatRepository _repository;
 
   @override
   Future<Either<Failure, Stream<List<ChatMessage>>>> call(
       [NoParams? params]) async {
-    final socketOrFailure = await _repository.connect();
-    return socketOrFailure.fold(left, (socket) => right(_repository.messages));
+    return right(_repository.messages);
   }
 }

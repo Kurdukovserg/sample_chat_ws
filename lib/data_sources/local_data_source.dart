@@ -10,8 +10,6 @@ import '../dtos/access_token.dart';
 import 'failures.dart';
 
 abstract class AuthLocalDataSource {
-  bool get isAuthenticated;
-
   Future<Either<Failure, Unit>> signOut();
 
   Future<Either<Failure, Unit>> saveAccessToken(AccessToken accessToken);
@@ -24,16 +22,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl(this._storage);
 
   final SharedPreferences _storage;
-
-  @override
-  bool get isAuthenticated {
-    final accessToken = readAccessToken();
-
-    return accessToken.fold(
-      (_) => false,
-      (token) => true,
-    );
-  }
+  AccessToken? _accessToken;
 
   @override
   Future<Either<Failure, Unit>> signOut() async {
@@ -50,6 +39,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<Either<Failure, Unit>> saveAccessToken(
     AccessToken accessToken,
   ) async {
+    _accessToken = accessToken;
     final json = accessToken.toDto().toJson();
     final data = jsonEncode(json);
 
@@ -64,6 +54,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Either<Failure, AccessToken> readAccessToken() {
+    if (_accessToken != null) return right(_accessToken!);
     final data = _storage.getString('access-token');
 
     if (data == null) {
