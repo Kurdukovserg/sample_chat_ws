@@ -4,6 +4,7 @@
   "description": "my first socket.io app",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",

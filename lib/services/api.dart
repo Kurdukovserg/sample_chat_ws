@@ -1,3 +1,4 @@
+import 'package:chat_sample_app/models/access_token_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -23,7 +24,7 @@ abstract class ExampleChatApiService {
   Future<String> getSelf();
 
   @POST('login')
-  Future<String> login({
+  Future<AccessTokenModel> login({
     @Body() required LoginRequest loginRequest,
   });
 }

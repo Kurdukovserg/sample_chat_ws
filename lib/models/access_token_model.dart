@@ -13,6 +13,7 @@ class AccessTokenModel extends AccessToken with _$AccessTokenModel {
 
   factory AccessTokenModel({
     @JsonKey(name: 'token') required String token,
+    @JsonKey(name: 'uid') required String uid,
   }) = _AccessTokenModel;
 
   factory AccessTokenModel.fromJson(Map<String, dynamic> json) =>

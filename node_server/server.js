@@ -8,7 +8,7 @@ const ExtractJwt = passportJwt.ExtractJwt;
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
-const { random } = require("random");
+const { crypto } = require("node:crypto");
 
 const port = process.env.PORT || 3000;
 const jwtSecret = "Mys3cr3t";
@@ -36,7 +36,8 @@ app.get(
 
 app.post("/login", (req, res) => {
 
-    const uid = 1231;
+    const randomInt = Math.floor(Math.random() * 1000000);
+    const uid = req.body.username + randomInt;
 
     user = {
       id: uid,
@@ -55,7 +56,7 @@ app.post("/login", (req, res) => {
       },
     );
 
-    res.json({ token });
+    res.json({ "token":token, "uid":uid });
 
 });
 

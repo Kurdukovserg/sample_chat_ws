@@ -23,7 +23,7 @@ class ConfigRemoteDataSourceImpl implements AuthRemoteDataSource {
     return _api
         .login(loginRequest: request)
         .then((token) =>
-            right<Failure, AccessTokenModel>(AccessTokenModel(token: token)))
+            right<Failure, AccessTokenModel>(token))
         .onNetworkError();
   }
 }

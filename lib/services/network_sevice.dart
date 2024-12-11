@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 
 abstract class HttpClientsService {
   Dio get apiClient;
-
   void reset();
 }
 

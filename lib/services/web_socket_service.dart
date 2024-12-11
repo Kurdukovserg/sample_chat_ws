@@ -7,6 +7,7 @@ import '../core/env.dart';
 abstract class WebSocketService {
   IO.Socket get socket;
   void reset();
+  void dispose();
 }
 
 class WebSocketServiceImpl implements WebSocketService {
@@ -28,11 +29,16 @@ class WebSocketServiceImpl implements WebSocketService {
     tokenOrFail.fold(
         left,
         (token) => {
-              _socket.io.options.addAll({'authorization': "$token"})
+              _socket.io.options.addAll({'authorization': "${token.token}"})
             });
     _socket.connect();
   }
 
   @override
   IO.Socket get socket => _socket;
+
+  @override
+  void dispose() {
+    _socket.disconnect().dispose();
+  }
 }

@@ -7,10 +7,12 @@ abstract class AccessToken {
   const AccessToken();
 
   String get token;
+  String get uid;
 
   AccessTokenDto toDto() {
     return AccessTokenDto(
       token: token,
+      uid: uid,
     );
   }
 }
@@ -21,6 +23,7 @@ class AccessTokenDto extends AccessToken with _$AccessTokenDto {
 
   const factory AccessTokenDto({
     required String token,
+    required String uid,
   }) = _AccessTokenDto;
 
   @override
