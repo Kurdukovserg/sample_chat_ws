@@ -15,12 +15,12 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes {
     return [
       AutoRoute(
-        path: 'login',
+        path: '/',
         page: LoginRoute.page,
         initial: true,
       ),
       AutoRoute(
-        path: '/',
+        path: '/home',
         page: HomeRoute.page,
       ),
     ];

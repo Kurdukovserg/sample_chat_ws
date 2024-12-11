@@ -4,4 +4,9 @@ abstract class Env {
     'API_URL',
     defaultValue: 'http://localhost:3000/',
   );
+
+  static const socketUrl = String.fromEnvironment(
+    'WS_URL',
+    defaultValue: 'http://localhost:3000/',
+  );
 }

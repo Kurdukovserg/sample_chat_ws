@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Center(
-                      child: Text('Hello'),
+                      child: Text(Strings.homeScreenName),
                     ),
                   ],
                 )

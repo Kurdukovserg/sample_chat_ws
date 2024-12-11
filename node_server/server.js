@@ -36,11 +36,11 @@ app.get(
 
 app.post("/login", (req, res) => {
 
-    console.log(req);
+    const uid = 1231;
 
-    const user = {
-      id: random.int(),
-      username: req.username,
+    user = {
+      id: uid,
+      username: req.body.username,
     };
 
     const token = jwt.sign(

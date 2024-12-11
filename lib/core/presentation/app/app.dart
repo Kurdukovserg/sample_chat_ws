@@ -17,7 +17,7 @@ class _AppState extends State<App> {
     return MaterialApp.router(
       title: 'Chat app',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey, brightness: Brightness.dark),
         useMaterial3: true,
       ),
       routerConfig: _router.config(),
