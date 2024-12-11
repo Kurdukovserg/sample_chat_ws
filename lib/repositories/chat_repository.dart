@@ -53,6 +53,10 @@ class ChatRepositoryImpl implements ChatRepository {
           logInfo('message received: $message');
           convertAndSink(message);
         });
+        socket.on('notification', (notification) {
+          logInfo('notification received: $notification');
+          convertAndSink(notification);
+        });
       });
     });
   }

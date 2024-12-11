@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/strings.dart';
 import '../../core/bloc/view.dart';
+import '../../gen/assets.gen.dart';
 import 'bloc/home_page_bloc.dart';
 
 @RoutePage()
@@ -17,39 +18,44 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: MediaQuery.paddingOf(context)
-            .add(EdgeInsets.symmetric(horizontal: 16.0)),
-        child:
-            BaseView<HomePageBloc, PageEvent, PageBlocState, PageNotification>(
-              initialEvent: Init(),
-          onNotification:
-              (BuildContext context, PageNotification notification) {
-            switch (notification) {}
-          },
-          builder: (BuildContext context, PageBlocState state) {
-            return switch (state) {
-              InitialState() || LoadingState() => Center(
-                  child: Column(
+      body: Stack(
+        children: [
+          Assets.images.bgChat.image(fit: BoxFit.fitHeight, height: MediaQuery.of(context).size.height),
+        Padding(
+          padding: MediaQuery.paddingOf(context)
+              .add(EdgeInsets.symmetric(horizontal: 16.0)),
+          child: BaseView<HomePageBloc, PageEvent, PageBlocState,
+              PageNotification>(
+            initialEvent: Init(),
+            onNotification:
+                (BuildContext context, PageNotification notification) {
+              switch (notification) {}
+            },
+            builder: (BuildContext context, PageBlocState state) {
+              return switch (state) {
+                InitialState() || LoadingState() => Center(
+                    child: Column(
+                      children: [
+                        CircularProgressIndicator(),
+                      ],
+                    ),
+                  ),
+                ErrorState() => Center(
+                    child: Text(state.errorMessage),
+                  ),
+                UpdatedState() => Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircularProgressIndicator(),
+                      Center(
+                        child: Text(Strings.homeScreenName),
+                      ),
                     ],
                   ),
-                ),
-              ErrorState() => Center(
-                  child: Text(state.errorMessage),
-                ),
-              UpdatedState() => Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Center(
-                      child: Text(Strings.homeScreenName),
-                    ),
-                  ],
-                ),
-            };
-          },
+              };
+            },
+          ),
         ),
+      ]
       ),
     );
   }

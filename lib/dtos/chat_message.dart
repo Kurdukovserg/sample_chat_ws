@@ -8,12 +8,14 @@ abstract class ChatMessage {
 
   String get message;
   String get uid;
+  String get userName;
   String get date;
 
   ChatMessageDto toDto() {
     return ChatMessageDto(
       message: message,
       uid:uid,
+      userName: userName,
       date: date
     );
   }
@@ -26,6 +28,7 @@ class ChatMessageDto extends ChatMessage with _$ChatMessageDto {
   const factory ChatMessageDto({
     required String message,
     required String uid,
+    required String userName,
     required String date,
   }) = _ChatMessageDto;
 

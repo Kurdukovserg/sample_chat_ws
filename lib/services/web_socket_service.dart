@@ -63,8 +63,6 @@ class WebSocketServiceImpl implements WebSocketService {
       _socket?.on('error', (data) {
         logError('socket error: $data');
       });
-      _socket?.onPing((_) => logInfo('Ping received from server'));
-      _socket?.onPong((_) => logInfo('Pong sent to server'));
       _socket?.onReconnect((_) => logInfo('Reconnected'));
       _socket?.onReconnectAttempt((_) => logInfo('Reconnecting...'));
       _socket?.onDisconnect((_) => dispose());
