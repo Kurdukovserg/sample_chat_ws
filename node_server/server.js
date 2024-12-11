@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 const { crypto } = require("node:crypto");
 
 const port = process.env.PORT || 3000;
+const wsPort = 3030;
 const jwtSecret = "Mys3cr3t";
 
 const app = express();
@@ -75,6 +76,18 @@ passport.use(
 
 const io = new Server(httpServer);
 
-httpServer.listen(port, () => {
-  console.log(`application is running at: http://localhost:${port}`);
+io.on("connection", (socket) => {
+  console.log("connection request");
+  io.emit('broadcast', data);
+  socket.on("whoami", (cb) => {
+    cb(req.user.username);
+  });
 });
+
+
+httpServer.listen(port, (socket) => {
+  console.log(`application is running at: http://localhost:${port}`);
+
+});
+
+

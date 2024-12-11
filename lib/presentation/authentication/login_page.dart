@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:chat_sample_app/core/bloc/notifiable_bloc.dart';
+import 'package:chat_sample_app/core/routing/router.dart';
 import 'package:chat_sample_app/services/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:loggy/loggy.dart';
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             switch (notification) {
               case LoggedIn():
                 logInfo('Logged in!');
+                context.pushRoute(HomeRoute());
               case ErrorNotification():
                 logError('login error: ${notification.error}');
             }

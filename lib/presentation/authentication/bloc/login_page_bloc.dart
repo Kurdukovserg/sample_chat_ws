@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:chat_sample_app/core/failures/failure.dart';
 import 'package:chat_sample_app/models/login_request.dart';
 import 'package:chat_sample_app/use_cases/login.dart';
-import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 

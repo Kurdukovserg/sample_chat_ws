@@ -4,6 +4,11 @@ part of 'home_page_bloc.dart';
 sealed class PageBlocState {}
 
 @freezed
+class InitialState with _$InitialState implements PageBlocState {
+  const factory InitialState() = _InitialState;
+}
+
+@freezed
 class LoadingState with _$LoadingState implements PageBlocState {
   const factory LoadingState() = _LoadingState;
 }

@@ -7,6 +7,6 @@ abstract class Env {
 
   static const socketUrl = String.fromEnvironment(
     'WS_URL',
-    defaultValue: 'http://localhost:3000/',
+    defaultValue: 'http://localhost:3000',
   );
 }

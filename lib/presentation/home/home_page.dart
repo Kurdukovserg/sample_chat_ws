@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/strings.dart';
 import '../../core/bloc/view.dart';
@@ -15,7 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +22,14 @@ class _HomePageState extends State<HomePage> {
             .add(EdgeInsets.symmetric(horizontal: 16.0)),
         child:
             BaseView<HomePageBloc, PageEvent, PageBlocState, PageNotification>(
+              initialEvent: Init(),
           onNotification:
               (BuildContext context, PageNotification notification) {
-            switch (notification) {
-            }
+            switch (notification) {}
           },
           builder: (BuildContext context, PageBlocState state) {
             return switch (state) {
-              LoadingState() => Center(
+              InitialState() || LoadingState() => Center(
                   child: Column(
                     children: [
                       CircularProgressIndicator(),
@@ -48,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text(Strings.homeScreenName),
                     ),
                   ],
-                )
+                ),
             };
           },
         ),
