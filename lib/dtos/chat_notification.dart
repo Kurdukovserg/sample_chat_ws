@@ -17,11 +17,13 @@ abstract class ChatNotification {
 
   String get message;
 
-  String get date;
+  int get date;
 
   UserModel? get user;
 
   NotificationType get type;
+
+  DateTime get localDate => DateTime.fromMillisecondsSinceEpoch(date).toLocal();
 
   ChatNotificationDto toDto() {
     return ChatNotificationDto(
@@ -39,7 +41,7 @@ class ChatNotificationDto extends ChatNotification with _$ChatNotificationDto {
 
   const factory ChatNotificationDto({
     required String message,
-    required String date,
+    required int date,
     UserModel? user,
     required NotificationType type,
   }) = _ChatNotificationDto;
@@ -53,7 +55,7 @@ class ChatNotificationDto extends ChatNotification with _$ChatNotificationDto {
   factory ChatNotificationDto.fromModel(ChatNotificationModel model) {
     return ChatNotificationDto(
       message: model.message,
-      date: model.date.toString(),
+      date: model.date,
       type: (model.user == null)
           ? NotificationType.server
           : NotificationType.user,

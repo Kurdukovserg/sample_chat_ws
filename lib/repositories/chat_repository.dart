@@ -1,6 +1,5 @@
 import 'package:chat_sample_app/dtos/chat_message.dart';
 import 'package:chat_sample_app/dtos/chat_notification.dart';
-
 import 'package:chat_sample_app/models/chat_notification_model.dart';
 import 'package:chat_sample_app/services/web_socket_service.dart';
 import 'package:dartz/dartz.dart';
@@ -18,7 +17,7 @@ abstract class ChatRepository {
 
   Stream<List<ChatNotification>> get chatNotifications;
 
-  Future<Either<Failure, Unit>> sendMessage(ChatMessage message);
+  Either<Failure, Unit> sendMessage(ChatMessage message);
 }
 
 @Singleton(as: ChatRepository)
@@ -92,19 +91,26 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<List<ChatNotification>> get chatNotifications => _notificationsController.stream;
+  Stream<List<ChatNotification>> get chatNotifications =>
+      _notificationsController.stream;
 
   @override
-  Future<Either<Failure, Unit>> sendMessage(ChatMessage message) {
-    // TODO: implement sendMessage
-    throw UnimplementedError();
+  Either<Failure, Unit> sendMessage(ChatMessage message) {
+    logInfo('sending message: $message');
+    final socket = _webSocketService.socket;
+    try {
+      socket!.emit('message', message.toDto().toJson());
+    } catch (e) {
+      return left(Failure());
+    }
+    return right(unit);
   }
 
   void convertAndSink(message) {
     final newNotificationModel = ChatNotificationModel.fromJson(message);
     final newNotification = ChatNotificationDto.fromModel(newNotificationModel);
 
-    List<ChatNotification> newNotifications =[...?_cachedNotifications];
+    List<ChatNotification> newNotifications = [...?_cachedNotifications];
     newNotifications.add(newNotification);
     _cachedNotifications = newNotifications;
   }

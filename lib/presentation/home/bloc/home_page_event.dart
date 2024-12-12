@@ -7,3 +7,8 @@ sealed class PageEvent {}
 class Init with _$Init implements PageEvent {
   const factory Init() = _Init;
 }
+
+@freezed
+class SendMessage with _$SendMessage implements PageEvent {
+  const factory SendMessage({required String message}) = _SendMessage;
+}

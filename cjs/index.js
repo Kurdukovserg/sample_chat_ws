@@ -113,7 +113,8 @@ io.on("connection", (socket) => {
 
 
     socket.on("message", (data) => {
-        io.emit("broadcast", data);
+    const message = {message: data.message, date: data.date, user: {uid: req.user.id, userName: req.user.username}}
+        io.emit("message", message);
     });
 
     socket.on("disconnect", () => {
