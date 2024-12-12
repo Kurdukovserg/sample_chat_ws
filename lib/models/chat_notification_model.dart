@@ -12,7 +12,7 @@ class ChatNotificationModel with _$ChatNotificationModel {
 
   factory ChatNotificationModel({
     @JsonKey(name: 'message') required String message,
-    @JsonKey(name: 'date') required String date,
+    @JsonKey(name: 'date') required int date,
     @JsonKey(name: 'user') UserModel? user,
   }) = _ChatNotificationModel;
 

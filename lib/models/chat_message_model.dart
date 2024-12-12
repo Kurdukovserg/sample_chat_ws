@@ -12,8 +12,7 @@ class ChatMessageModel extends ChatMessage with _$ChatMessageModel {
   factory ChatMessageModel({
     @JsonKey(name: 'message') required String message,
     @JsonKey(name: 'uid') required String uid,
-    @JsonKey(name: 'username') required String userName,
-    @JsonKey(name: 'date') required String date,
+    @JsonKey(name: 'date') required int date,
   }) = _ChatMessageModel;
 
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) =>

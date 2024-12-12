@@ -1,4 +1,7 @@
 import 'package:chat_sample_app/dtos/chat_message.dart';
+import 'package:chat_sample_app/dtos/chat_notification.dart';
+
+import 'package:chat_sample_app/models/chat_notification_model.dart';
 import 'package:chat_sample_app/services/web_socket_service.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -13,7 +16,7 @@ abstract class ChatRepository {
 
   Future<Either<Failure, Unit>> dispose();
 
-  Stream<List<ChatMessage>> get messages;
+  Stream<List<ChatNotification>> get chatNotifications;
 
   Future<Either<Failure, Unit>> sendMessage(ChatMessage message);
 }
@@ -26,24 +29,24 @@ class ChatRepositoryImpl implements ChatRepository {
 
   final WebSocketService _webSocketService;
 
-  late final BehaviorSubject<List<ChatMessage>> _messagesController =
-      BehaviorSubject<List<ChatMessage>>(
-    onListen: _onMessagesListen,
-    onCancel: _onCancelMessagesSubscription,
+  late final BehaviorSubject<List<ChatNotification>> _notificationsController =
+      BehaviorSubject<List<ChatNotification>>(
+    onListen: _onNotificationsListen,
+    onCancel: _onCancelNotificationsSubscription,
   );
 
-  List<ChatMessage>? _cachedMessagesVal;
+  List<ChatNotification>? _cachedNotificationsVal;
 
-  List<ChatMessage>? get _cachedMessages => _cachedMessagesVal;
+  List<ChatNotification>? get _cachedNotifications => _cachedNotificationsVal;
 
-  set _cachedMessages(List<ChatMessage>? newMessages) {
-    _cachedMessagesVal = newMessages;
-    if (newMessages != null) {
-      _messagesController.add(newMessages);
+  set _cachedNotifications(List<ChatNotification>? newNotifications) {
+    _cachedNotificationsVal = newNotifications;
+    if (newNotifications != null) {
+      _notificationsController.add(newNotifications);
     }
   }
 
-  void _onMessagesListen() async {
+  void _onNotificationsListen() async {
     final socketOrFail = await _webSocketService.init();
     socketOrFail.fold((fail) => logError(fail), (socket) {
       logInfo('socket connection status: ${socket.connected}');
@@ -61,13 +64,12 @@ class ChatRepositoryImpl implements ChatRepository {
     });
   }
 
-  void _onCancelMessagesSubscription() {
+  void _onCancelNotificationsSubscription() {
     dispose();
   }
 
   @override
   Future<Either<Failure, IO.Socket>> connect() async {
-    logInfo('connect');
     try {
       final socketOrNull = _webSocketService.socket;
       if (socketOrNull != null && socketOrNull.connected) {
@@ -90,7 +92,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<List<ChatMessage>> get messages => _messagesController.stream;
+  Stream<List<ChatNotification>> get chatNotifications => _notificationsController.stream;
 
   @override
   Future<Either<Failure, Unit>> sendMessage(ChatMessage message) {
@@ -99,9 +101,10 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   void convertAndSink(message) {
-    final newMessage = ChatMessageDto.fromJson(message);
-    final newMessages = _cachedMessages;
-    newMessages?.add(newMessage);
-    _cachedMessages = newMessages;
+    final newNotificationModel = ChatNotificationModel.fromJson(message);
+    final newNotification = ChatNotificationDto.fromModel(newNotificationModel);
+    List<ChatNotification> newNotifications =[...?_cachedNotifications];
+    newNotifications.add(newNotification);
+    _cachedNotifications = newNotifications;
   }
 }

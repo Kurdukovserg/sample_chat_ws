@@ -52,7 +52,7 @@ class ChatNotificationDto extends ChatNotification with _$ChatNotificationDto {
   factory ChatNotificationDto.fromModel(ChatNotificationModel model) {
     return ChatNotificationDto(
       message: model.message,
-      date: model.date,
+      date: model.date.toString(),
       type: (model.user == null)
           ? NotificationType.server
           : NotificationType.user,

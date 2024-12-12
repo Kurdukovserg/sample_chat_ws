@@ -9,6 +9,7 @@ class NeumorfismContainer extends StatelessWidget {
     this.isInset = false,
     this.blurRadius = 22,
     this.distance = 12,
+    this.constraints,
   });
 
   final double radius;
@@ -16,6 +17,7 @@ class NeumorfismContainer extends StatelessWidget {
   final Widget child;
   final bool isInset;
   final double distance;
+  final BoxConstraints? constraints;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class NeumorfismContainer extends StatelessWidget {
     final effectiveBlurRadius = isInset? blurRadius/2.5 : blurRadius;
     final offset = Offset(effectiveDistance, effectiveDistance);
     return AnimatedContainer(
+      constraints: constraints,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius),
           border: Border.all(color: Colors.white.withOpacity(0.1), width: 1.0),
