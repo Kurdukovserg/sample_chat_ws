@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chat_sample_app/dtos/chat_notification.dart';
 import 'package:chat_sample_app/presentation/components/neumorfism_button.dart';
 import 'package:chat_sample_app/presentation/components/neumorfism_container.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/bloc/view.dart';
@@ -64,12 +64,23 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    state.chatNotifications[index].message,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(color: Colors.blue),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${state.chatNotifications[index].date} ${state.chatNotifications[index].message}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                color: state
+                                                            .chatNotifications[
+                                                                index]
+                                                            .type ==
+                                                        NotificationType.forMe
+                                                    ? Colors.amber
+                                                    : Colors.blue),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -83,42 +94,43 @@ class _HomePageState extends State<HomePage> {
                       right: 8,
                       left: 8,
                       child: NeumorfismContainer(
-                          radius: 12,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                NeumorfismContainer(
-                                  radius: 12,
-                                  isInset: true,
-                                  constraints: BoxConstraints(maxWidth: 250),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none),
-                                      maxLines: 3,
-                                      minLines: 1,
-                                    ),
+                        radius: 12,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              NeumorfismContainer(
+                                radius: 12,
+                                isInset: true,
+                                constraints: BoxConstraints(maxWidth: 250),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none),
+                                    maxLines: 3,
+                                    minLines: 1,
                                   ),
                                 ),
-                                S.s4(),
-                                NeumorfismButton(
-                                  onPress: () {},
-                                  radius: 12,
-                                  blurRadius: 16,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Icon(Icons.send),
-                                  ),
+                              ),
+                              S.s4(),
+                              NeumorfismButton(
+                                onPress: () {},
+                                radius: 12,
+                                blurRadius: 16,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(Icons.send),
                                 ),
-                                S.s2(),
-                              ],
-                            ),
-                          )),
-                    )
+                              ),
+                              S.s2(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ]),
               };
             },

@@ -9,6 +9,7 @@ enum NotificationType {
   server,
   user,
   my,
+  forMe,
 }
 
 abstract class ChatNotification {
@@ -56,7 +57,9 @@ class ChatNotificationDto extends ChatNotification with _$ChatNotificationDto {
       type: (model.user == null)
           ? NotificationType.server
           : NotificationType.user,
-      user: model.user,
+      user: (model.uid != null)
+          ? UserModel(userName: '', uid: model.uid!)
+          : model.user,
     );
   }
 }

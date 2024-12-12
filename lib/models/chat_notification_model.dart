@@ -14,6 +14,7 @@ class ChatNotificationModel with _$ChatNotificationModel {
     @JsonKey(name: 'message') required String message,
     @JsonKey(name: 'date') required int date,
     @JsonKey(name: 'user') UserModel? user,
+    @JsonKey(name: 'uid') String? uid,
   }) = _ChatNotificationModel;
 
   factory ChatNotificationModel.fromJson(Map<String, dynamic> json) =>

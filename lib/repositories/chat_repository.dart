@@ -103,6 +103,7 @@ class ChatRepositoryImpl implements ChatRepository {
   void convertAndSink(message) {
     final newNotificationModel = ChatNotificationModel.fromJson(message);
     final newNotification = ChatNotificationDto.fromModel(newNotificationModel);
+
     List<ChatNotification> newNotifications =[...?_cachedNotifications];
     newNotifications.add(newNotification);
     _cachedNotifications = newNotifications;

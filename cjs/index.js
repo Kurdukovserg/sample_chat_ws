@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
     console.log("User connecting, id:", id);
     const req = socket.request;
     console.log("User connected:", req.user);
-    const helloNotification = { message:`${req.user.username} connected`, date: Date.now() };
+    const helloNotification = { message:`${req.user.username} connected`, date: Date.now() , uid: req.user.id};
     console.log("Hello notification:", helloNotification);
     io.emit("notification", helloNotification);
 
